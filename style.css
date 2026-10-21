@@ -80,3 +80,5 @@ footer a:hover{color:var(--ink)}
  .shot{width:210px;border-radius:26px}.phone{border-radius:48px;padding:10px}.phone video{border-radius:38px}
  .privacy{border-radius:0;margin:0 -28px}
 }
+.nav{background:#108040;border-bottom:none;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.nav nav a{color:#fff;opacity:.9}.nav nav a:hover{opacity:1}
