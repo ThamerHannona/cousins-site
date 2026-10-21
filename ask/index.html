@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Add your birthday · COUSINS</title><meta name="description" content="Someone in your family wants to remember your birthday. Add it in 10 seconds, no app or sign-up needed."><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><meta property="og:title" content="Add your birthday 🎂"><meta property="og:description" content="Someone wants to remember your birthday. 10 seconds, no app or sign-up."><meta property="og:image" content="https://cousinsai.com/assets/icon.png"><link rel="icon" href="../assets/tree.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"><meta name="theme-color" content="#108040"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="ask.css"></head><body class="ask">
+<header class="nav"><div class="wrap"><a class="brand" href="../index.html"><img class="t" src="../assets/tree-white.png" alt=""><img class="w" src="../assets/wordmark-white.png" alt="COUSINS"></a><nav><a href="../privacy.html">Privacy</a></nav></div></header>
+<main class="ask-main">
+ <section class="card" id="form-card">
+  <div class="cake" aria-hidden="true">🎂</div>
+  <h1 id="title">Add your birthday</h1>
+  <p class="lead-s" id="lead">Someone in your family wants to remember your birthday. It takes 10 seconds, no app or sign-up needed.</p>
+  <form id="f" novalidate>
+   <label>Your name<input id="name" name="name" autocomplete="name" maxlength="80" required placeholder="First and last name"></label>
+   <div class="row">
+    <label>Month<select id="month" required><option value="">Month</option></select></label>
+    <label>Day<select id="day" required><option value="">Day</option></select></label>
+    <label>Year <span class="opt">optional</span><input id="year" inputmode="numeric" maxlength="4" placeholder="YYYY" autocomplete="bday-year"></label>
+   </div>
+   <label>Things you love <span class="opt">optional</span><textarea id="likes" maxlength="500" rows="2" placeholder="Coffee, gardening, mystery novels…"></textarea></label>
+   <label>Gift ideas <span class="opt">optional</span><textarea id="gifts" maxlength="500" rows="2" placeholder="A cozy blanket, a cookbook…"></textarea></label>
+   <p class="err" id="err" role="alert"></p>
+   <button type="submit" id="go">Send my birthday 🎉</button>
+   <p class="fine">Your answer goes only to the person who sent this link. It's stored briefly to pass it along, then deleted. <a href="../privacy.html">Privacy</a></p>
+  </form>
+ </section>
+ <section class="card hidden" id="done-card">
+  <div class="cake" aria-hidden="true">🌳</div>
+  <h1>Thank you!</h1>
+  <p class="lead-s" id="done-msg">Your birthday is on its way. Expect a happy birthday this year 💚</p>
+  <a class="badge get" href="../index.html">Get COUSINS for your family</a>
+ </section>
+ <section class="card hidden" id="bad-card">
+  <div class="cake" aria-hidden="true">🔗</div>
+  <h1>This link isn't complete</h1>
+  <p class="lead-s">Ask the person who sent it to share it again from the COUSINS app.</p>
+ </section>
+</main>
+<footer><div class="wrap"><div><a href="../index.html">Home</a><a href="../support.html">Support</a><a href="../privacy.html">Privacy</a></div><div>© 2026 Shake and Bake Labs</div></div></footer>
+<script src="ask.js"></script></body></html>

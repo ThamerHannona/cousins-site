@@ -1,0 +1,22 @@
+.ask{background:radial-gradient(900px 500px at 50% -10%,#dff3e6 0,rgba(223,243,230,0) 70%),#f6f8f6}
+.ask-main{min-height:calc(100vh - 220px);display:flex;justify-content:center;padding:44px 18px 70px}
+.card{width:100%;max-width:520px;background:#fff;border-radius:30px;padding:34px 28px 30px;border:2px solid #d6f2df;border-bottom-width:6px;box-shadow:0 30px 60px -30px rgba(11,60,30,.35);text-align:center}
+.hidden{display:none}
+.cake{width:76px;height:76px;margin:0 auto 14px;border-radius:24px;background:linear-gradient(180deg,#D6F2DF,#A8E0B9);border:2.5px solid #108040;display:flex;align-items:center;justify-content:center;font-size:38px}
+.card h1{font-size:30px;letter-spacing:-.02em;line-height:1.15}
+.lead-s{color:var(--mute);font-size:17px;margin:10px auto 22px;max-width:420px}
+#f{text-align:left;display:flex;flex-direction:column;gap:14px}
+#f label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px;color:#24382c}
+.opt{font-weight:500;color:var(--mute);font-size:12px}
+#f input,#f select,#f textarea{font:inherit;font-size:17px;font-weight:500;color:var(--ink);background:#f6f8f6;border:2px solid #dfe9e2;border-radius:14px;padding:12px 14px;width:100%;-webkit-appearance:none;appearance:none}
+#f select{background-image:linear-gradient(45deg,transparent 50%,#108040 50%),linear-gradient(135deg,#108040 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 12px) 52%;background-size:6px 6px;background-repeat:no-repeat;padding-right:30px}
+#f input:focus,#f select:focus,#f textarea:focus{outline:none;border-color:#108040;background:#fff}
+#f textarea{resize:vertical}
+.row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:10px}
+#go{margin-top:6px;font:inherit;font-size:18px;font-weight:800;color:#fff;background:#108040;border:none;border-radius:18px;padding:16px;box-shadow:0 5px 0 #0B5A2D;cursor:pointer;transition:transform .1s,box-shadow .1s}
+#go:active{transform:translateY(4px);box-shadow:0 1px 0 #0B5A2D}
+#go:disabled{opacity:.6}
+.err{color:#b3261e;font-size:14px;min-height:0;margin:0}
+.fine{font-size:12.5px;color:var(--mute);text-align:center;margin-top:4px}
+.get{margin-top:6px;font-size:16px;font-weight:700}
+@media(max-width:520px){.card{padding:28px 18px 24px;border-radius:26px}.row{grid-template-columns:1.2fr 1fr 1fr}.nav nav a{margin-left:16px}}
