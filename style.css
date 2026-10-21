@@ -214,3 +214,13 @@ footer a:hover{color:var(--ink)}
  .lc{min-height:0;padding:18px 26px 18px 28px}
 }
 @media(max-width:860px){.leaf.l{--r:-1.5deg!important}.leaf.r{--r:1.5deg!important}.leaf{width:90%}}
+/* bolder leaves */
+.lc{background:linear-gradient(135deg,#d6f2df,#a8e0b9);border:2.5px solid #108040;box-shadow:0 16px 30px -16px rgba(11,60,30,.45)}
+.lc::before{height:2px;background:linear-gradient(90deg,transparent,rgba(16,128,64,.45) 20%,rgba(16,128,64,.45) 80%,transparent)}
+.lc b{color:#0b2a18}.lc p{color:#1f3d2b}
+.lc .ic{background:#108040;color:#fff;box-shadow:none}
+.treeart .tk{fill:#108040}
+.treeart .br{stroke:#108040;stroke-width:5}
+.treeart .tw{stroke:#2f9a5a;stroke-width:2.5}
+@media(max-width:860px){.tree::before{width:4px;background:#108040}}
+.lc::before{background:linear-gradient(90deg,transparent,rgba(16,128,64,.22) 20%,rgba(16,128,64,.22) 80%,transparent)}
