@@ -6,9 +6,9 @@
 .card h1{font-size:30px;letter-spacing:-.02em;line-height:1.15}
 .lead-s{color:var(--mute);font-size:17px;margin:10px auto 22px;max-width:420px}
 #f{text-align:left;display:flex;flex-direction:column;gap:14px}
-#f label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px;color:#24382c}
-.opt{font-weight:500;color:var(--mute);font-size:12px}
-#f input,#f select,#f textarea{font:inherit;font-size:17px;font-weight:500;color:var(--ink);background:#f6f8f6;border:2px solid #dfe9e2;border-radius:14px;padding:12px 14px;width:100%;-webkit-appearance:none;appearance:none}
+#f label{display:block;font-weight:700;font-size:14px;color:#24382c}
+.opt{margin-left:4px;font-weight:500;color:var(--mute);font-size:12px}
+#f input,#f select,#f textarea{display:block;margin-top:6px;font:inherit;font-size:17px;font-weight:500;color:var(--ink);background:#f6f8f6;border:2px solid #dfe9e2;border-radius:14px;padding:12px 14px;width:100%;-webkit-appearance:none;appearance:none}
 #f select{background-image:linear-gradient(45deg,transparent 50%,#108040 50%),linear-gradient(135deg,#108040 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 12px) 52%;background-size:6px 6px;background-repeat:no-repeat;padding-right:30px}
 #f input:focus,#f select:focus,#f textarea:focus{outline:none;border-color:#108040;background:#fff}
 #f textarea{resize:vertical}
