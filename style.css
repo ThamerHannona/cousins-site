@@ -158,3 +158,26 @@ footer a:hover{color:var(--ink)}
 .leafcard{align-content:start;row-gap:0}
 .leafcard b{align-self:center}
 .leafcard p{margin-top:10px}
+/* organic branch */
+.trunk::before,.branch::after,.node{display:none!important}
+.trunk{grid-template-rows:auto 80px auto}
+.branch.l{padding-bottom:0}.branch.r{padding-top:0}
+.branch-h{position:absolute;left:-30px;right:-30px;width:calc(100% + 60px);top:50%;height:80px;margin-top:-40px;pointer-events:none;overflow:visible}
+.branch-h path,.branch-v path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.branch-h .bm{stroke:#9fcfb0;stroke-width:3}
+.branch-h .bm.thin{stroke:#cfe9d8;stroke-width:1.2}
+.branch-h .tw{stroke:#a9d6b9;stroke-width:1.8}
+.branch-h .tw.sm{stroke-width:1.3}
+.branch-h .lf,.branch-v .lf{fill:#bfe6cc;stroke:none}
+.branch-v{display:none}
+@media(max-width:760px){
+ .branch-h{display:none}
+ .branch-v{display:block;position:absolute;left:0;top:0;width:24px;height:100%;pointer-events:none}
+ .branch-v .bm{stroke:#9fcfb0;stroke-width:2.5}
+ .branch.l,.branch.r{position:relative}
+ .branch.l::after,.branch.r::after{display:block!important;content:"";position:absolute;left:-16px;top:12px;width:16px;height:14px;background:none;border:solid #a9d6b9;border-width:0 0 1.8px 1.8px;border-radius:0 0 0 14px}
+ .branch.l::before,.branch.r::before{content:"";position:absolute;left:-12px;top:5px;width:9px;height:6px;border-radius:9px 0 9px 0;background:#bfe6cc;transform:rotate(-25deg)}
+}
+.branch:nth-of-type(1){grid-column:1}.branch:nth-of-type(3){grid-column:2}.branch:nth-of-type(5){grid-column:3}
+.branch:nth-of-type(2){grid-column:1}.branch:nth-of-type(4){grid-column:2}.branch:nth-of-type(6){grid-column:3}
+@media(max-width:760px){.branch.l,.branch.r{padding:0 0 10px}}
