@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Join the family tree · COUSINS</title><meta name="description" content="Someone shared their family tree and birthdays with you on COUSINS. Tap to add them to yours."><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><meta property="og:title" content="Join our family tree 🌳"><meta property="og:description" content="Tap to add our people and birthdays to your COUSINS."><meta property="og:image" content="https://cousinsai.com/assets/icon.png"><link rel="icon" href="../assets/tree.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"><meta name="theme-color" content="#108040"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../ask/ask.css?v=2"></head><body class="ask">
+<header class="nav"><div class="wrap"><a class="brand" href="../index.html"><img class="t" src="../assets/tree-white.png" alt=""><img class="w" src="../assets/wordmark-white.png" alt="COUSINS"></a><nav><a href="../privacy.html">Privacy</a></nav></div></header>
+<main class="ask-main">
+ <section class="card" id="open-card">
+  <div class="cake" aria-hidden="true">🌳</div>
+  <h1>Join the family tree</h1>
+  <p class="lead-s">Someone shared their family and birthdays with you. Open COUSINS to see who's in it and add them to your tree. Duplicates are combined for you.</p>
+  <a class="badge get" id="open" href="#">Open in COUSINS</a>
+  <p class="fine" style="margin-top:22px">Don't have COUSINS yet? <a id="store" href="https://apps.apple.com/app/id6773212380">Get it on the App Store</a>, then come back and tap this link again.<br>Testing a beta? Install it from <a href="https://testflight.apple.com/">TestFlight</a> first.</p>
+  <p class="fine">Shared trees are kept for 30 days, then deleted. <a href="../privacy.html">Privacy</a></p>
+ </section>
+ <section class="card hidden" id="bad-card">
+  <div class="cake" aria-hidden="true">🔗</div>
+  <h1>This link isn't complete</h1>
+  <p class="lead-s">Ask the person who sent it to tap Share tree in COUSINS and send it again.</p>
+ </section>
+</main>
+<footer><div class="wrap"><div><a href="../index.html">Home</a><a href="../support.html">Support</a><a href="../privacy.html">Privacy</a></div><div>© 2026 Shake and Bake Labs</div></div></footer>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var id = q.get("t") || (location.hash.match(/t=([A-Za-z0-9_-]+)/) || [])[1] || "";
+  if (!/^[A-Za-z0-9_-]{22,64}$/.test(id)) {
+    document.getElementById("open-card").classList.add("hidden");
+    document.getElementById("bad-card").classList.remove("hidden");
+    return;
+  }
+  var deep = "cousins://join/" + id;
+  document.getElementById("open").href = deep;
+  // Try to open the app straight away (iOS shows "Open in COUSINS?"); the button stays as a fallback.
+  setTimeout(function () { location.href = deep; }, 300);
+})();
+</script></body></html>
