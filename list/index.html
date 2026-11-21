@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Gift list · COUSINS</title><meta name="description" content="A family gift list on COUSINS. Tap Buy to open the store, and tap I'm getting this so nobody doubles up."><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><meta property="og:title" content="Our Christmas list 🎁"><meta property="og:description" content="See the list, tap Buy, and claim a gift so nobody doubles up."><meta property="og:image" content="https://cousinsai.com/assets/icon.png"><link rel="icon" href="../assets/tree.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"><meta name="theme-color" content="#108040"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../ask/ask.css?v=2">
+<style>
+.list-main{max-width:640px;margin:0 auto;padding:22px 16px 60px}
+.lh{background:var(--g);color:#fff;border-radius:22px;padding:22px 20px;margin-bottom:16px}
+.lh h1{font-size:26px;line-height:1.2;margin-bottom:6px}
+.lh p{opacity:.9;font-size:15px}
+.lh .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.lh .acts a,.lh .acts button{font:inherit;font-weight:800;font-size:14px;border-radius:12px;padding:9px 14px;border:0;cursor:pointer;text-decoration:none}
+.lh .open{background:#fff;color:var(--gd)}
+.lh .peek{background:rgba(255,255,255,.16);color:#fff}
+.it{display:flex;gap:14px;background:#fff;border:2px solid #e6dfd0;border-radius:18px;padding:12px;margin-bottom:12px;box-shadow:0 4px 0 #e6dfd0}
+.it.taken{opacity:.62}
+.ph{width:84px;height:84px;border-radius:12px;background:#f2efe6;flex:none;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:30px}
+.ph img{width:100%;height:100%;object-fit:cover}
+.bd{flex:1;min-width:0}
+.tt{font-weight:800;font-size:16px;line-height:1.3;color:var(--ink);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.meta{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:13px;color:var(--mute);font-weight:700}
+.lg{width:18px;height:18px;border-radius:5px;border:1px solid #e6dfd0;background:#fff;object-fit:contain}
+.lt{width:18px;height:18px;border-radius:5px;color:#fff;font-size:11px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+.pr{margin-left:auto;color:var(--ink);font-weight:900;font-size:15px}
+.badge2{display:inline-block;margin-top:6px;font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px;background:#e3f2ff;color:#1d4e89}
+.badge2.me{background:#dff7e8;color:#0b5e2f}
+.btns{display:flex;gap:8px;margin-top:10px}
+.btns a,.btns button{flex:1;font:inherit;font-weight:900;font-size:14px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
+.buy{background:var(--g);color:#fff;border:0}
+.cl{background:#fff;color:var(--ink);border:2px solid #e6dfd0}
+.cl.mine{background:#dff7e8;border-color:var(--mint);color:#0b5e2f}
+.cl:disabled{opacity:.5;cursor:default}
+.empty{text-align:center;color:var(--mute);padding:30px 0;font-weight:700}
+.note{font-size:13px;color:var(--mute);text-align:center;margin-top:18px;line-height:1.5}
+</style></head><body class="ask">
+<header class="nav"><div class="wrap"><a class="brand" href="../index.html"><img class="t" src="../assets/tree-white.png" alt=""><img class="w" src="../assets/wordmark-white.png" alt="COUSINS"></a><nav><a href="../privacy.html">Privacy</a></nav></div></header>
+<main class="list-main">
+ <section class="card hidden" id="bad-card">
+  <div class="cake" aria-hidden="true">🔗</div>
+  <h1 id="bad-h">This link isn't complete</h1>
+  <p class="lead-s" id="bad-p">Ask the person who sent it to tap Share list in COUSINS and send it again.</p>
+ </section>
+ <div id="loading" class="empty">Loading the list…</div>
+ <div id="list" class="hidden">
+  <div class="lh">
+   <h1 id="title"></h1>
+   <p id="sub"></p>
+   <div class="acts"><a class="open" id="open" href="#">Open in COUSINS</a><button class="peek hidden" id="peek" type="button"></button></div>
+  </div>
+  <div id="items"></div>
+  <p class="note" id="foot"></p>
+  <p class="note">No account needed. Claims are anonymous unless you add a name. Lists expire 60 days after the last update. <a href="../privacy.html">Privacy</a> · <a href="https://apps.apple.com/app/id6773212380">Get COUSINS</a></p>
+ </div>
+</main>
+<footer><div class="wrap"><div><a href="../index.html">Home</a><a href="../support.html">Support</a><a href="../privacy.html">Privacy</a></div><div>© 2026 Shake and Bake Labs</div></div></footer>
+<script>
+(function () {
+  "use strict";
+  var BASE = "https://firestore.googleapis.com/v1/projects/cousins-ai/databases/(default)/documents/lists";
+  var q = new URLSearchParams(location.search);
+  var id = q.get("l") || (location.hash.match(/l=([A-Za-z0-9_-]+)/) || [])[1] || "";
+  var $ = function (x) { return document.getElementById(x); };
+  function bad(h, p) {
+    $("loading").classList.add("hidden");
+    $("list").classList.add("hidden");
+    $("bad-card").classList.remove("hidden");
+    if (h) $("bad-h").textContent = h;
+    if (p) $("bad-p").textContent = p;
+  }
+  if (!/^[A-Za-z0-9_-]{22,64}$/.test(id)) return bad();
+  $("open").href = "cousins://list/" + id;
+
+  var KEY_RE = /^[A-Za-z0-9_-]{1,64}$/;
+  var str = function (v) { return v && typeof v.stringValue === "string" ? v.stringValue : ""; };
+  var https = function (u) { return /^https:\/\/[^\s"'<>]{4,1500}$/i.test(u) ? u : ""; };
+  var num = function (v) { var n = v ? (v.doubleValue != null ? v.doubleValue : v.integerValue) : null; n = typeof n === "string" ? parseFloat(n) : n; return typeof n === "number" && isFinite(n) && n > 0 ? n : null; };
+  var SYM = { USD: "$", CAD: "CA$", AUD: "A$", EUR: "€", GBP: "£", JPY: "¥", INR: "₹" };
+  function money(p, c) { c = (c || "USD").toUpperCase(); var a = p % 1 === 0 ? String(p) : p.toFixed(2); return SYM[c] ? SYM[c] + a : a + " " + c; }
+  var COLORS = ["#108040", "#1D4E89", "#A9781F", "#8E3B8E", "#C2410C", "#0F766E", "#B91C1C", "#4338CA"];
+  function color(name) { var h = 0; for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0; return COLORS[h % COLORS.length]; }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  async function sha256(s) {
+    var b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(b)).map(function (x) { return x.toString(16).padStart(2, "0"); }).join("");
+  }
+  function token() {
+    var b = new Uint8Array(24); crypto.getRandomValues(b);
+    return btoa(String.fromCharCode.apply(null, b)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  var TK = "cousins-claims";
+  function tokens() { try { return JSON.parse(localStorage.getItem(TK) || "{}"); } catch (e) { return {}; } }
+  function setToken(k, t) { var all = tokens(); if (t) all[id + ":" + k] = t; else delete all[id + ":" + k]; try { localStorage.setItem(TK, JSON.stringify(all)); } catch (e) {} }
+
+  var list = null, claims = {}, showClaims = false;
+
+  async function loadList() {
+    var r = await fetch(BASE + "/" + id);
+    if (r.status === 404 || r.status === 403) return null;
+    if (!r.ok) throw new Error("fetch");
+    var f = ((await r.json()) || {}).fields || {};
+    var exp = f.expiresAt && f.expiresAt.timestampValue;
+    if (exp && new Date(exp).getTime() < Date.now()) return null;
+    var items = ((f.items && f.items.arrayValue && f.items.arrayValue.values) || []).map(function (v) {
+      var x = (v.mapValue && v.mapValue.fields) || {};
+      var k = str(x.k), t = str(x.t).trim();
+      if (!KEY_RE.test(k) || !t) return null;
+      return { k: k, t: t.slice(0, 160), u: https(str(x.u)), s: str(x.s).slice(0, 40), d: str(x.d).slice(0, 80), lg: https(str(x.lg)), i: https(str(x.i)), p: num(x.p), c: str(x.c).slice(0, 3) };
+    }).filter(Boolean);
+    return { from: str(f.from) || "Family", forName: str(f.forName) || "Family", title: str(f.title) || "Gift list", mine: !!(f.mine && f.mine.booleanValue), items: items };
+  }
+  async function loadClaims() {
+    var out = {};
+    var r = await fetch(BASE + "/" + id + "/claims?pageSize=300");
+    if (!r.ok) return out;
+    var b = await r.json();
+    (b.documents || []).forEach(function (d) {
+      var k = String(d.name || "").split("/").pop();
+      var f = d.fields || {};
+      if (KEY_RE.test(k)) out[k] = { on: !!(f.on && f.on.booleanValue), n: str(f.n).trim().slice(0, 40) };
+    });
+    return out;
+  }
+
+  async function claim(it) {
+    var forFirst = list.forName.split(/\s+/)[0];
+    var name = window.prompt("I'm getting this.\n\nAdd your first name so other family knows who's on it (optional)." + (list.mine ? " " + forFirst + " won't see it in COUSINS." : ""), "");
+    if (name === null) return;
+    var t = token();
+    var fields = { on: { booleanValue: true }, ch: { stringValue: await sha256(t) }, at: { timestampValue: new Date().toISOString() } };
+    name = name.trim().slice(0, 40);
+    if (name) fields.n = { stringValue: name };
+    var body = JSON.stringify({ fields: fields });
+    var h = { "Content-Type": "application/json" };
+    var r = await fetch(BASE + "/" + id + "/claims?documentId=" + encodeURIComponent(it.k), { method: "POST", headers: h, body: body });
+    if (r.status === 409) r = await fetch(BASE + "/" + id + "/claims/" + encodeURIComponent(it.k) + "?currentDocument.exists=true", { method: "PATCH", headers: h, body: body });
+    if (r.ok) setToken(it.k, t);
+    else if (r.status === 403) alert("Someone beat you to it. Another family member is already getting this one.");
+    else alert("Couldn't save that. Check your connection and try again.");
+    await refresh();
+  }
+  async function release(it) {
+    var t = tokens()[id + ":" + it.k];
+    if (!t || !confirm("Not getting this anymore? It goes back on the list for others.")) return;
+    var r = await fetch(BASE + "/" + id + "/claims/" + encodeURIComponent(it.k) + "?currentDocument.exists=true", {
+      method: "PATCH", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fields: { on: { booleanValue: false }, t: { stringValue: t }, at: { timestampValue: new Date().toISOString() } } })
+    });
+    if (r.ok) setToken(it.k, null); else alert("Couldn't update that. Check your connection and try again.");
+    await refresh();
+  }
+
+  function render() {
+    var forFirst = list.forName.split(/\s+/)[0];
+    document.title = list.title + " · COUSINS";
+    $("title").textContent = list.title;
+    $("sub").textContent = (list.mine ? "From " : "Shared by ") + list.from + " · Tap Buy to open the store, then tap I'm getting this so nobody doubles up.";
+    var peek = $("peek");
+    if (list.mine) {
+      peek.classList.remove("hidden");
+      peek.textContent = showClaims ? "Hide what's claimed" : "Show what's claimed (spoilers for " + forFirst + ")";
+    }
+    var box = $("items"); box.textContent = "";
+    if (!list.items.length) box.appendChild(el("div", "empty", "No gift ideas on this list yet."));
+    var tk = tokens();
+    list.items.forEach(function (it) {
+      var c = claims[it.k];
+      var mine = !!tk[id + ":" + it.k] && c && c.on;
+      var taken = !mine && c && c.on && showClaims;
+      var card = el("div", "it" + (taken ? " taken" : ""));
+      var ph = el("div", "ph");
+      if (it.i) { var im = el("img"); im.src = it.i; im.alt = ""; im.loading = "lazy"; im.referrerPolicy = "no-referrer"; im.onerror = function () { ph.textContent = "🎁"; }; ph.appendChild(im); } else ph.textContent = "🎁";
+      card.appendChild(ph);
+      var bd = el("div", "bd");
+      bd.appendChild(el("div", "tt", it.t));
+      var meta = el("div", "meta");
+      if (it.s) {
+        var logo = it.lg || (it.d ? "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(it.d) + "&sz=128" : "");
+        var letter = el("span", "lt", it.s.replace(/[^A-Za-z0-9]/g, "").charAt(0).toUpperCase() || "•"); letter.style.background = color(it.s);
+        if (logo) { var lg = el("img", "lg"); lg.src = logo; lg.alt = ""; lg.referrerPolicy = "no-referrer"; lg.onerror = function () { lg.replaceWith(letter); }; meta.appendChild(lg); } else meta.appendChild(letter);
+        meta.appendChild(el("span", null, it.s));
+      }
+      if (it.p) meta.appendChild(el("span", "pr", money(it.p, it.c)));
+      bd.appendChild(meta);
+      if (mine) bd.appendChild(el("span", "badge2 me", "You're getting this"));
+      else if (taken) bd.appendChild(el("span", "badge2", c.n ? c.n + " is getting it" : "Taken"));
+      var btns = el("div", "btns");
+      if (it.u) { var a = el("a", "buy", it.s ? "Buy at " + it.s : "Open in store"); a.href = it.u; a.target = "_blank"; a.rel = "noopener noreferrer nofollow"; btns.appendChild(a); }
+      var b = el("button", "cl" + (mine ? " mine" : ""), mine ? "Undo" : taken ? "Taken" : "I'm getting this");
+      b.type = "button"; b.disabled = !!taken;
+      b.onclick = function () { b.disabled = true; (mine ? release(it) : claim(it)).finally(function () { b.disabled = false; }); };
+      btns.appendChild(b);
+      bd.appendChild(btns);
+      card.appendChild(bd);
+      box.appendChild(card);
+    });
+    $("foot").textContent = list.mine
+      ? forFirst + " won't see claims in the COUSINS app. Claims stay hidden on this page unless you tap Show."
+      : "Made in COUSINS by " + list.from + ".";
+  }
+
+  async function refresh() {
+    try { claims = await loadClaims(); } catch (e) {}
+    render();
+  }
+
+  $("peek").onclick = function () { showClaims = !showClaims; try { sessionStorage.setItem("peek:" + id, showClaims ? "1" : ""); } catch (e) {} render(); };
+
+  (async function () {
+    try {
+      list = await loadList();
+      if (!list) return bad("This list isn't available", "It may have expired. Ask whoever sent it to tap Share list in COUSINS again.");
+      try { showClaims = !list.mine || sessionStorage.getItem("peek:" + id) === "1"; } catch (e) { showClaims = !list.mine; }
+      $("loading").classList.add("hidden");
+      $("list").classList.remove("hidden");
+      await refresh();
+    } catch (e) {
+      bad("Couldn't load the list", "Check your connection and refresh the page.");
+    }
+  })();
+})();
+</script></body></html>
