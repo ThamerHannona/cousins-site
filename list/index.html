@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Gift list · COUSINS</title><meta name="description" content="A family gift list on COUSINS. Tap Buy to open the store, and tap I'm getting this so nobody doubles up."><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><meta property="og:title" content="Our Christmas list 🎁"><meta property="og:description" content="See the list, tap Buy, and claim a gift so nobody doubles up."><meta property="og:image" content="https://cousinsai.com/assets/icon.png"><link rel="icon" href="../assets/tree.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"><meta name="theme-color" content="#108040"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../ask/ask.css?v=2">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Gift list · COUSINS</title><meta name="description" content="A family gift list on COUSINS. Tap Buy to open the store, and tap I'm getting this so nobody doubles up."><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><meta property="og:title" content="A family gift list 🎁"><meta property="og:description" content="See the list, tap Buy, and claim a gift so nobody doubles up."><meta property="og:image" content="https://cousinsai.com/assets/icon.png"><link rel="icon" href="../assets/tree.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"><meta name="theme-color" content="#108040"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../ask/ask.css?v=2">
 <style>
 .list-main{max-width:640px;margin:0 auto;padding:22px 16px 60px}
 .lh{background:var(--g);color:#fff;border-radius:22px;padding:22px 20px;margin-bottom:16px}
@@ -26,6 +26,9 @@
 .cl{background:#fff;color:var(--ink);border:2px solid #e6dfd0}
 .cl.mine{background:#dff7e8;border-color:var(--mint);color:#0b5e2f}
 .cl:disabled{opacity:.5;cursor:default}
+.star{display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:12px;font-weight:900;color:#8a5a00;background:#fff6da;border-radius:999px;padding:2px 9px}
+.it.wanted{border-color:#f1cf6b;box-shadow:0 4px 0 #f1cf6b}
+.det{margin-top:4px;font-size:13px;font-weight:800;color:var(--ink)}
 .empty{text-align:center;color:var(--mute);padding:30px 0;font-weight:700}
 .note{font-size:13px;color:var(--mute);text-align:center;margin-top:18px;line-height:1.5}
 </style></head><body class="ask">
@@ -101,8 +104,12 @@
       var x = (v.mapValue && v.mapValue.fields) || {};
       var k = str(x.k), t = str(x.t).trim();
       if (!KEY_RE.test(k) || !t) return null;
-      return { k: k, t: t.slice(0, 160), u: https(str(x.u)), s: str(x.s).slice(0, 40), d: str(x.d).slice(0, 80), lg: https(str(x.lg)), i: https(str(x.i)), p: num(x.p), c: str(x.c).slice(0, 3) };
+      var q = num(x.q);
+      return { k: k, t: t.slice(0, 160), u: https(str(x.u)), s: str(x.s).slice(0, 40), d: str(x.d).slice(0, 80), lg: https(str(x.lg)), i: https(str(x.i)), p: num(x.p), c: str(x.c).slice(0, 3),
+        sz: str(x.sz).trim().slice(0, 40), co: str(x.co).trim().slice(0, 40), q: q && q > 1 ? Math.min(Math.floor(q), 99) : 0, w: !!(x.w && x.w.booleanValue === true) };
     }).filter(Boolean);
+    // Most wanted first; otherwise keep the order the app sent (newest first).
+    items = items.map(function (it, i) { return { it: it, i: i }; }).sort(function (a, b) { return (b.it.w - a.it.w) || (a.i - b.i); }).map(function (x) { return x.it; });
     return { from: str(f.from) || "Family", forName: str(f.forName) || "Family", title: str(f.title) || "Gift list", mine: !!(f.mine && f.mine.booleanValue), items: items };
   }
   async function loadClaims() {
@@ -163,12 +170,18 @@
       var c = claims[it.k];
       var mine = !!tk[id + ":" + it.k] && c && c.on;
       var taken = !mine && c && c.on && showClaims;
-      var card = el("div", "it" + (taken ? " taken" : ""));
+      var card = el("div", "it" + (taken ? " taken" : "") + (it.w ? " wanted" : ""));
       var ph = el("div", "ph");
       if (it.i) { var im = el("img"); im.src = it.i; im.alt = ""; im.loading = "lazy"; im.referrerPolicy = "no-referrer"; im.onerror = function () { ph.textContent = "🎁"; }; ph.appendChild(im); } else ph.textContent = "🎁";
       card.appendChild(ph);
       var bd = el("div", "bd");
       bd.appendChild(el("div", "tt", it.t));
+      if (it.w) bd.appendChild(el("span", "star", "★ Most wanted"));
+      var det = [];
+      if (it.sz) det.push("Size " + it.sz);
+      if (it.co) det.push(it.co);
+      if (it.q > 1) det.push("Qty " + it.q);
+      if (det.length) bd.appendChild(el("div", "det", det.join(" · ")));
       var meta = el("div", "meta");
       if (it.s) {
         var logo = it.lg || (it.d ? "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(it.d) + "&sz=128" : "");
