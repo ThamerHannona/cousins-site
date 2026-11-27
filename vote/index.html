@@ -1,0 +1,217 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>The Family Awards · COUSINS</title><meta name="description" content="Your family is voting. Pick a winner in one tap, no app or sign-up needed."><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><meta property="og:title" content="The Family Awards 🏆"><meta property="og:description" content="Your family is voting. Pick a winner in one tap, no app or sign-up needed."><meta property="og:image" content="https://cousinsai.com/assets/icon.png"><link rel="icon" href="../assets/tree.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"><meta name="theme-color" content="#108040"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../ask/ask.css?v=2">
+<style>
+.vote-main{max-width:640px;margin:0 auto;padding:22px 16px 60px}
+.vh{background:var(--g);color:#fff;border-radius:26px;padding:24px 22px 22px;margin-bottom:16px;position:relative;overflow:hidden;background-image:radial-gradient(500px 220px at 85% 0,rgba(141,215,130,.35),transparent)}
+.vh .ey{font-size:12px;font-weight:800;letter-spacing:.14em;color:#c4efbc;text-transform:uppercase}
+.vh h1{font-size:30px;line-height:1.15;letter-spacing:-.02em;margin:8px 0 6px}
+.vh p{opacity:.9;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:420px){.grid{grid-template-columns:repeat(2,1fr)}}
+.nom{position:relative;background:#fff;border:2px solid #e6dfd0;border-radius:20px;padding:14px 8px 12px;text-align:center;cursor:pointer;box-shadow:0 4px 0 #e6dfd0;font:inherit;color:var(--ink);transition:transform .08s}
+.nom:active{transform:translateY(2px)}
+.nom.sel{border-color:var(--g);box-shadow:0 4px 0 var(--g);background:#f1fbf3}
+.nom .ck{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:11px;background:var(--g);color:#fff;font-size:13px;font-weight:900;display:none;align-items:center;justify-content:center}
+.nom.sel .ck{display:flex}
+.av{width:72px;height:72px;border-radius:50%;margin:0 auto 8px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:26px;border:3px solid #fff;box-shadow:0 0 0 2px #e6dfd0}
+.av img{width:100%;height:100%;object-fit:cover}
+.nm{font-weight:900;font-size:15px;line-height:1.2;word-break:break-word}
+.go{display:block;width:100%;margin-top:14px;font:inherit;font-size:18px;font-weight:900;color:#fff;background:var(--g);border:0;border-radius:18px;padding:16px;box-shadow:0 5px 0 #0B5A2D;cursor:pointer}
+.go:disabled{opacity:.55;cursor:default}
+.res{background:#fff;border:2px solid #e6dfd0;border-radius:20px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.res.win{border-color:#e5c35a;box-shadow:0 4px 0 #e5c35a}
+.res .av{width:48px;height:48px;margin:0;font-size:18px}
+.res .b{flex:1;min-width:0}
+.bar{height:10px;border-radius:5px;background:#edf6ea;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--g);border-radius:5px;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.res.win .bar i{background:#e0a92b}
+.cnt{font-weight:900;font-size:15px;color:var(--ink);white-space:nowrap}
+.crown{font-size:12px;font-weight:900;color:#8a5a00;background:#fff6da;border-radius:999px;padding:2px 9px;margin-left:6px}
+.tot{text-align:center;color:var(--mute);font-weight:800;margin:6px 0 16px}
+.cta{background:linear-gradient(160deg,#0B5A2D,#108040);color:#fff;border-radius:26px;padding:26px 22px;text-align:center;margin-top:22px}
+.cta img.t{width:54px;height:auto;margin-bottom:6px}
+.cta h2{font-size:26px;letter-spacing:-.02em;line-height:1.15;color:#fff}
+.cta h2 b{color:#8DD782}
+.cta p{opacity:.9;margin:8px auto 16px;max-width:420px;font-size:15.5px}
+.cta .badge{background:#fff;color:#000;box-shadow:none}
+.cta .badge svg{fill:#000}
+.cta .tag{margin-top:12px;font-size:13px;font-weight:800;color:#c4efbc}
+.note{font-size:13px;color:var(--mute);text-align:center;margin-top:14px;line-height:1.5}
+.empty{text-align:center;color:var(--mute);padding:30px 0;font-weight:700}
+</style></head><body class="ask">
+<header class="nav"><div class="wrap"><a class="brand" href="../index.html"><img class="t" src="../assets/tree-white.png" alt=""><img class="w" src="../assets/wordmark-white.png" alt="COUSINS"></a><nav><a href="../privacy.html">Privacy</a></nav></div></header>
+<main class="vote-main">
+ <section class="card hidden" id="bad-card">
+  <div class="cake" aria-hidden="true">🏆</div>
+  <h1 id="bad-h">This link isn't complete</h1>
+  <p class="lead-s" id="bad-p">Ask the person who sent it to share the Family Award from COUSINS again.</p>
+ </section>
+ <div id="loading" class="empty">Loading the Family Awards…</div>
+ <div id="poll" class="hidden">
+  <div class="vh">
+   <div class="ey" id="ey">The Family Awards</div>
+   <h1 id="q"></h1>
+   <p id="sub"></p>
+  </div>
+  <div id="vote">
+   <div class="grid" id="noms" role="radiogroup" aria-label="Nominees"></div>
+   <button class="go" id="go" type="button" disabled>Pick someone to vote</button>
+   <p class="note">One vote per person. Votes are anonymous.</p>
+  </div>
+  <div id="results" class="hidden">
+   <div id="rows"></div>
+   <p class="tot" id="tot"></p>
+  </div>
+  <div class="cta" id="cta">
+   <img class="t" src="../assets/tree-white.png" alt="">
+   <h2>See what you're missing: <b>get COUSINS</b></h2>
+   <p>Your family is on COUSINS: birthdays, wish lists, and little facts about how you're all related. Free on iPhone.</p>
+   <a class="badge" href="https://apps.apple.com/app/id6773212380" id="store"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9s-2-.9-3.4-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 4.9c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.1 1.1.1 2.3-.6 3-1.5z"/></svg><span><small>Download on the</small>App Store</span></a>
+   <div class="tag">You share more than you think.</div>
+  </div>
+  <p class="note">No account needed. Polls close after 7 days and are deleted after 30. <a href="../privacy.html">Privacy</a></p>
+ </div>
+</main>
+<footer><div class="wrap"><div><a href="../index.html">Home</a><a href="../support.html">Support</a><a href="../privacy.html">Privacy</a></div><div>© 2026 Shake and Bake Labs</div></div></footer>
+<script>
+(function () {
+  "use strict";
+  var PROJECT = "cousins-ai";
+  var ROOT = "https://firestore.googleapis.com/v1/projects/" + PROJECT + "/databases/(default)/documents";
+  var BASE = ROOT + "/polls";
+  var KEYS = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+  var q = new URLSearchParams(location.search);
+  var id = q.get("p") || (location.hash.match(/p=([A-Za-z0-9_-]+)/) || [])[1] || "";
+  var $ = function (x) { return document.getElementById(x); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function bad(h, p) {
+    $("loading").classList.add("hidden");
+    $("poll").classList.add("hidden");
+    $("bad-card").classList.remove("hidden");
+    if (h) $("bad-h").textContent = h;
+    if (p) $("bad-p").textContent = p;
+  }
+  if (!/^[A-Za-z0-9_-]{22,64}$/.test(id)) return bad();
+
+  var str = function (v) { return v && typeof v.stringValue === "string" ? v.stringValue : ""; };
+  var num = function (v) { var n = v ? (v.integerValue != null ? v.integerValue : v.doubleValue) : 0; n = typeof n === "string" ? parseFloat(n) : n; return typeof n === "number" && isFinite(n) && n > 0 ? Math.floor(n) : 0; };
+  var TINTS = [["#C4EFBC", "#0B5A2D"], ["#F5E9CF", "#6B4A12"], ["#F0E7F2", "#5B3566"], ["#DCEBF7", "#1F4E79"]];
+  function tint(name) { var h = 0; for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0; return TINTS[h % TINTS.length]; }
+  function initials(name) { var p = name.trim().split(/\s+/); return ((p[0] || "?").charAt(0) + (p.length > 1 ? p[p.length - 1].charAt(0) : "")).toUpperCase(); }
+  var VK = "cousins-votes";
+  function voted() { try { return JSON.parse(localStorage.getItem(VK) || "{}")[id] || ""; } catch (e) { return ""; } }
+  function setVoted(k) { try { var all = JSON.parse(localStorage.getItem(VK) || "{}"); all[id] = k; localStorage.setItem(VK, JSON.stringify(all)); } catch (e) {} }
+
+  var poll = null, pick = "", photos = {};
+
+  async function load() {
+    var r = await fetch(BASE + "/" + id);
+    if (r.status === 404 || r.status === 403) return null;
+    if (!r.ok) throw new Error("fetch");
+    var f = ((await r.json()) || {}).fields || {};
+    var n = ((f.n && f.n.arrayValue && f.n.arrayValue.values) || []).map(function (v) {
+      var x = (v.mapValue && v.mapValue.fields) || {};
+      var k = str(x.k), nm = str(x.nm).trim().slice(0, 40);
+      if (KEYS.indexOf(k) < 0 || !nm) return null;
+      return { k: k, nm: nm, ph: !!(x.ph && x.ph.booleanValue === true) };
+    }).filter(Boolean);
+    if (n.length < 2) return null;
+    var vf = (f.votes && f.votes.mapValue && f.votes.mapValue.fields) || {};
+    var votes = {}; n.forEach(function (x) { votes[x.k] = num(vf[x.k]); });
+    var closes = f.closesAt && f.closesAt.timestampValue;
+    return { from: str(f.from).trim().slice(0, 60) || "Your family", q: str(f.q).trim().slice(0, 120), n: n, votes: votes, total: num(f.total), closed: closes ? new Date(closes).getTime() <= Date.now() : false };
+  }
+  function loadPhotos() {
+    poll.n.forEach(function (x) {
+      if (!x.ph) return;
+      fetch(BASE + "/" + id + "/photos/" + x.k).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        var b = d && d.fields && str(d.fields.d);
+        if (b && /^[A-Za-z0-9+/=]+$/.test(b)) { photos[x.k] = "data:image/jpeg;base64," + b; render(); }
+      }).catch(function () {});
+    });
+  }
+  function avatar(x) {
+    var t = tint(x.nm), av = el("div", "av");
+    av.style.background = t[0]; av.style.color = t[1];
+    if (photos[x.k]) { var im = el("img"); im.src = photos[x.k]; im.alt = ""; av.appendChild(im); } else av.textContent = initials(x.nm);
+    return av;
+  }
+  function render() {
+    $("q").textContent = poll.q;
+    document.title = poll.q + " · The Family Awards";
+    var mine = voted();
+    var showResults = !!mine || poll.closed;
+    $("sub").textContent = showResults
+      ? (poll.closed ? "Voting is closed. The family has spoken." : "Thanks for voting! Here's how the family voted so far.")
+      : poll.from + " nominated " + poll.n.length + " people. Tap one, then vote.";
+    $("vote").classList.toggle("hidden", showResults);
+    $("results").classList.toggle("hidden", !showResults);
+    if (!showResults) {
+      var box = $("noms"); box.textContent = "";
+      poll.n.forEach(function (x) {
+        var b = el("button", "nom" + (pick === x.k ? " sel" : ""));
+        b.type = "button"; b.setAttribute("role", "radio"); b.setAttribute("aria-checked", pick === x.k ? "true" : "false");
+        b.appendChild(el("span", "ck", "✓"));
+        b.appendChild(avatar(x));
+        b.appendChild(el("div", "nm", x.nm));
+        b.onclick = function () { pick = x.k; render(); };
+        box.appendChild(b);
+      });
+      var chosen = poll.n.filter(function (x) { return x.k === pick; })[0];
+      $("go").disabled = !chosen;
+      $("go").textContent = chosen ? "Vote for " + chosen.nm : "Pick someone to vote";
+    } else {
+      var total = poll.n.reduce(function (t, x) { return t + poll.votes[x.k]; }, 0);
+      var max = Math.max.apply(null, poll.n.map(function (x) { return poll.votes[x.k]; }));
+      var rows = $("rows"); rows.textContent = "";
+      poll.n.map(function (x, i) { return { x: x, i: i }; })
+        .sort(function (a, b) { return (poll.votes[b.x.k] - poll.votes[a.x.k]) || (a.i - b.i); })
+        .forEach(function (o) {
+          var x = o.x, v = poll.votes[x.k], win = max > 0 && v === max;
+          var row = el("div", "res" + (win ? " win" : ""));
+          row.appendChild(avatar(x));
+          var b = el("div", "b");
+          var nm = el("div", "nm", x.nm);
+          if (win) nm.appendChild(el("span", "crown", poll.closed ? "🏆 Winner" : "👑 Leading"));
+          if (mine === x.k) nm.appendChild(el("span", "crown", "Your vote"));
+          b.appendChild(nm);
+          var bar = el("div", "bar"), fill = el("i"); bar.appendChild(fill); b.appendChild(bar);
+          setTimeout(function () { fill.style.width = (total && v ? Math.max(4, Math.round(v / total * 100)) : 0) + "%"; }, 30);
+          row.appendChild(b);
+          row.appendChild(el("div", "cnt", v + (v === 1 ? " vote" : " votes")));
+          rows.appendChild(row);
+        });
+      $("tot").textContent = total + (total === 1 ? " relative has voted" : " relatives have voted");
+    }
+  }
+  $("go").onclick = async function () {
+    if (!pick || voted()) return;
+    var go = $("go"); go.disabled = true; go.textContent = "Voting…";
+    var body = { writes: [{
+      update: { name: "projects/" + PROJECT + "/databases/(default)/documents/polls/" + id, fields: { last: { stringValue: pick } } },
+      updateMask: { fieldPaths: ["last"] }, currentDocument: { exists: true },
+      updateTransforms: [{ fieldPath: "votes." + pick, increment: { integerValue: "1" } }, { fieldPath: "total", increment: { integerValue: "1" } }]
+    }] };
+    try {
+      var r = await fetch(ROOT + ":commit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (r.ok) setVoted(pick);
+      else if (r.status === 403) { alert("Voting on this award is closed."); poll.closed = true; }
+      else alert("Couldn't save your vote. Check your connection and try again.");
+    } catch (e) { alert("Couldn't save your vote. Check your connection and try again."); }
+    try { var fresh = await load(); if (fresh) poll = fresh; } catch (e) {}
+    render();
+  };
+
+  (async function () {
+    try {
+      poll = await load();
+      if (!poll) return bad("This award isn't available", "Voting may have ended. Polls are deleted 30 days after they're made.");
+      $("loading").classList.add("hidden");
+      $("poll").classList.remove("hidden");
+      render();
+      loadPhotos();
+    } catch (e) {
+      bad("Couldn't load the award", "Check your connection and refresh the page.");
+    }
+  })();
+})();
+</script></body></html>
