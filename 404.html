@@ -1,12 +1,15 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>COUSINS</title><meta name="robots" content="noindex"><script>
-// cousinsai.com/join/<id> → /join/?t=<id> and cousinsai.com/list/<id> → /list/?l=<id>
+// cousinsai.com/join/<id> → /join/?t=<id>, cousinsai.com/list/<id> → /list/?l=<id>,
+// cousinsai.com/vote/<id> → /vote/?p=<id>
 // (GitHub Pages has no server-side routes).
 (function () {
   var p = location.pathname;
   var j = p.match(/^\/join\/([A-Za-z0-9_-]{22,64})\/?$/);
   var l = p.match(/^\/list\/([A-Za-z0-9_-]{22,64})\/?$/);
+  var v = p.match(/^\/vote\/([A-Za-z0-9_-]{22,64})\/?$/);
   if (j) location.replace("/join/?t=" + j[1]);
   else if (l) location.replace("/list/?l=" + l[1]);
+  else if (v) location.replace("/vote/?p=" + v[1]);
   else location.replace("/");
 })();
 </script></head><body></body></html>
